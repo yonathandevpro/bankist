@@ -69,8 +69,8 @@ const displayMovements = function (movements) {
         <div class="movements__row">
           <div class="movements__type movements__type--${type}">${
       i + 1
-    }${type}</div>
-          <div class="movements__value">${mov}</div>
+    } ${type}</div>
+          <div class="movements__value">${mov}€</div>
         </div>
     `;
     containerMovements.insertAdjacentHTML('afterbegin', html);
@@ -89,9 +89,21 @@ const createUsernames = function (accs) {
 
 createUsernames(accounts);
 
-const calcDisplayBalance = function (movements) {
-  const balance = movements.reduce((acc, cur) => acc + cur, 0);
-  labelBalance.textContent = `${balance} EUR`;
+const updateUI = function (acc) {
+  // DISPLAY MOVEMENTS
+  displayMovements(acc.movements);
+
+  // DISPLAY BALANCE
+  calcDisplayBalance(acc);
+
+  // DISPLAY SUMMARY
+  calcDisplaySummary(acc);
+};
+
+const calcDisplayBalance = function (acc) {
+  acc.balance = acc.movements.reduce((acc, cur) => acc + cur, 0);
+
+  labelBalance.textContent = `${acc.balance} €`;
 };
 
 const calcDisplaySummary = function (acc) {
@@ -133,14 +145,30 @@ btnLogin.addEventListener('click', function (e) {
     // CLear input fields
     inputLoginUsername.value = inputLoginPin.value = '';
     inputLoginPin.blur();
-    // DISPLAY MOVEMENTS
-    displayMovements(currentAccount.movements);
 
-    // DISPLAY BALANCE
-    calcDisplayBalance(currentAccount.movements);
+    updateUI(currentAccount);
+  }
+});
 
-    // DISPLAY SUMMARY
-    calcDisplaySummary(currentAccount);
+btnTransfer.addEventListener('click', function (e) {
+  e.preventDefault();
+  const amount = Number(inputTransferAmount.value);
+  const receiverAcc = accounts.find(
+    acc => acc.username === inputTransferTo.value
+  );
+
+  inputTransferAmount.value = inputTransferTo.value = '';
+
+  if (
+    amount > 0 &&
+    receiverAcc &&
+    currentAccount.balance >= amount &&
+    receiverAcc?.username !== currentAccount.username
+  ) {
+    currentAccount.movements.push(-amount);
+    receiverAcc.movements.push(amount);
+
+    updateUI(currentAccount);
   }
 });
 

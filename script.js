@@ -445,15 +445,159 @@ const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
 // console.log(overallBalance2);
 
-const owners = ['Jonas', 'Zach', 'Adam', 'Martha'];
-console.log(owners.sort());
-console.log(owners);
+// const owners = ['Jonas', 'Zach', 'Adam', 'Martha'];
+// console.log(owners.sort());
+// console.log(owners);
 
-console.log(movements);
+// console.log(movements);
 
 // return < 0, A, B
 // return > 0, B, A
-movements.sort((a, b) => a - b);
-console.log(movements);
-movements.sort((a, b) => b - a);
-console.log(movements);
+// movements.sort((a, b) => a - b);
+// console.log(movements);
+// movements.sort((a, b) => b - a);
+// console.log(movements);
+
+// const arr = [1, 2, 3, 4, 5, 6, 7];
+
+// const x = new Array(7);
+// // console.log(x);
+
+// x.fill(1, 3);
+
+// console.log(x);
+// arr.fill(23, 2, 6);
+// console.log(arr);
+
+// const y = Array.from({ length: 7 }, () => 1);
+// console.log(y);
+
+// const z = Array.from({ length: 7 }, (_, i) => i + 1);
+// console.log(z);
+
+// labelBalance.addEventListener('click', function () {
+//   const movementsUI = Array.from(
+//     document.querySelectorAll('.movements__value'),
+//     el => Number(el.textContent.replace('€', ''))
+//   );
+//   console.log(movementsUI);
+// });
+
+// Array Practice
+// console.log(accounts);
+// // 1.
+// const bankDepositsSum = accounts
+//   .flatMap(acc => acc.movements)
+//   .filter(mov => mov > 0)
+//   .reduce((acc, cur) => acc + cur);
+// console.log(bankDepositsSum);
+
+// // 2.
+// // const numDeposits1000 = accounts
+// //   .flatMap(acc => acc.movements)
+// //   .filter(mov => mov >= 1000).length;
+
+// const numDeposits1000 = accounts
+//   .flatMap(acc => acc.movements)
+//   .reduce((acc, cur) => (cur >= 1000 ? ++acc : acc), 0);
+// console.log(numDeposits1000);
+
+// let a = 10;
+// console.log(++a);
+
+// // 3.
+// const { deposits, withdrawals } = accounts
+//   .flatMap(acc => acc.movements)
+//   .reduce(
+//     (sums, cur) => {
+//       // cur > 0 ? (sums.deposits += cur) : (sums.withdrawals += cur);
+//       sums[cur > 0 ? 'deposits' : 'withdrawals'] += cur;
+//       return sums;
+//     },
+//     { deposits: 0, withdrawals: 0 }
+//   );
+
+// // 4.
+// const convertTitleCase = function (title) {
+//   const capitalize = str => str.replace(str[0], str[0].toUpperCase());
+//   const exceptions = ['a', 'an', 'and', 'the', 'but', 'or', 'on', 'in', 'with'];
+
+//   const titleCase = title
+//     .toLowerCase()
+//     .split(' ')
+//     .map(word => (exceptions.includes(word) ? word : capitalize(word)))
+//     .join(' ');
+//   return capitalize(titleCase);
+// };
+// console.log(convertTitleCase('this is a nice title'));
+// console.log(convertTitleCase('this is a LONG title but not too long'));
+// console.log(convertTitleCase('and here is another title with an EXAMPLE'));
+
+// console.log(deposits, withdrawals);
+
+const dogs = [
+  { weight: 22, curFood: 250, owners: ['Alice', 'Bob'] },
+  { weight: 8, curFood: 200, owners: ['Matilda'] },
+  { weight: 13, curFood: 275, owners: ['Sarah', 'John'] },
+  { weight: 32, curFood: 340, owners: ['Michael'] },
+];
+
+dogs.forEach(dog => (dog.recommendedFood = dog.weight ** 0.75 * 28));
+
+const checkFoodPortion = function (dog) {
+  const min = dog.recommendedFood - 0.1 * dog.recommendedFood;
+  const max = dog.recommendedFood + 0.1 * dog.recommendedFood;
+
+  if (dog.curFood < min) console.log('Your dog is eating too little!');
+  if (dog.curFood > max) console.log('Your dog is eating too much!');
+};
+
+const ownersEatTooLittle = dogs
+  .filter(dog => dog.curFood < dog.recommendedFood * 0.9)
+  .map(dog => dog.owners)
+  .flat();
+
+const ownersEatTooMuch = dogs
+  .filter(dog => dog.curFood > dog.recommendedFood * 1.1)
+  .map(dog => dog.owners)
+  .flat();
+
+console.log(`${ownersEatTooLittle.join(' and ')} eat too little!`);
+
+console.log(`${ownersEatTooMuch.join(' and ')} eat too much!`);
+
+// dogs.forEach(dog =>
+//   console.log(`${dog.curFood === dog.recommendedFood ? 'TRUE' : 'FALSE'}`)
+// );
+
+dogs.forEach(dog =>
+  console.log(
+    `${
+      dog.curFood > dog.recommendedFood * 0.9 &&
+      dog.curFood < dog.recommendedFood * 1.1
+        ? 'TRUE'
+        : 'FALSE'
+    }`
+  )
+);
+
+const okayDogs = dogs.filter(
+  dog =>
+    dog.curFood > dog.recommendedFood * 0.9 &&
+    dog.curFood < dog.recommendedFood * 1.1
+);
+
+console.log(okayDogs);
+console.log(dogs);
+
+const sortedDogs = dogs
+  .slice()
+  .sort((a, b) => a.recommendedFood - b.recommendedFood);
+
+console.log(sortedDogs);
+// 1
+
+// 2
+const sarahDog = dogs.find(dog => dog.owners.includes('Sarah'));
+
+checkFoodPortion(sarahDog);
